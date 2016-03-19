@@ -1,0 +1,25 @@
+{
+  "name": "tinyxhr.js",
+  "version": "0.0.1",
+  "description": "Small javascript library for making http requests",
+  "main": "dist/http.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "xhr",
+    "XMLHttpRequest",
+    "http",
+    "js",
+    "javascript"
+  ],
+  "author": "Denis Kitaev <den.kitaev364@yandex.ru>",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-uglify": "^1.5.3",
+    "jshint": "^2.9.1"
+  }
+}
