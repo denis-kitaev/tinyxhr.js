@@ -2,7 +2,7 @@
 Small javascript library for making http requests
 
 ### How to use
-```
+```js
 http.get('/api/apticles/')
     .then(function(data) {
         console.log('Success');

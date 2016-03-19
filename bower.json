@@ -1,0 +1,28 @@
+{
+  "name": "tinyxhr.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/denis-kitaev/tinyxhr.js",
+  "authors": [
+    "Denis Kitaev <den.kitaev364@yandex.ru>"
+  ],
+  "description": "Small javascript library for making http requests",
+  "main": "dist/http.min.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "xhr",
+    "XMLHttpRequest",
+    "http",
+    "js",
+    "javascript"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

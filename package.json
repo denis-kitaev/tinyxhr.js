@@ -1,6 +1,6 @@
 {
   "name": "tinyxhr.js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Small javascript library for making http requests",
   "main": "dist/http.min.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "javascript"
   ],
   "author": "Denis Kitaev <den.kitaev364@yandex.ru>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
