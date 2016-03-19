@@ -22,6 +22,10 @@ var http = (function() {
         return (typeof item === "object" && !Array.isArray(item) && item !== null);
     };
 
+    var isFunction = function(f) {
+        return (f && typeof(f) === 'function');
+    };
+
     var xhrResponseIsJSON = function(xhr) {
         var contentType = xhr.getResponseHeader('Content-Type');
         return (contentType === 'application/json');
@@ -41,35 +45,35 @@ var http = (function() {
     };
 
     var request = function(method, url, data, config) {
-        var xhr = getXHR();
-        xhr.open(method, url, true);
-
-        if (isObject(data)) {
-            data = JSON.stringify(data);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-        }
-
         return new Promise(function(resolve, reject) {
+            var xhr = getXHR();
             var response, responseIsJson;
-            xhr.send(data);
+            xhr.open(method, url, true);
 
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState !== 4) return;
+            if (isObject(data)) {
+                data = JSON.stringify(data);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+            }
 
+            xhr.onload = function() {
                 responseIsJson = xhrResponseIsJSON(xhr);
                 response = (responseIsJson) ? JSON.parse(xhr.responseText) : xhr.responseText;
 
                 if (xhr.status >= 200 && xhr.status < 300) {
                     resolve(response);
                 } else {
-                    reject({
-                        status: xhr.status,
-                        statusText: xhr.statusText,
-                        response: xhr.response,
-                        data: response
-                    });
+                    var err = new Error(xhr.statusText);
+                    err.status = xhr.status;
+                    err.response = response;
+                    reject(err);
                 }
             };
+
+            xhr.onerror = function() {
+                reject(new Error('Network Error'));
+            };
+
+            xhr.send(data);
         });
     };
 
