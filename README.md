@@ -8,7 +8,7 @@ Via bower
 $ bower install tinyxhr.js
 ```
 
-### How to use
+### Usage
 ```js
 http.get('/api/apticles/')
     .then(function(data) {
@@ -28,3 +28,8 @@ List of methods:
 * `http.put(url, data, [config])`
 * `http.delete(url, [config])`
 * `http.patch(url, data, [config])`
+
+If data is a javascript object, it will be converted to json string and
+`Content-Type` header will set to `application/json`.
+If response's `Content-Type` header is `application/json` then response data
+will be converted to javascript object.
