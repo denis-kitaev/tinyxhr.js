@@ -1,5 +1,12 @@
 # tinyxhr.js
-Small javascript library for making http requests
+A small javascript library for making http requests
+
+### Installation
+
+Via bower
+```sh
+$ bower install tinyxhr.js
+```
 
 ### How to use
 ```js
@@ -15,9 +22,9 @@ http.get('/api/apticles/')
 
 ### API
 List of methods:
-* http.get(url, [config])
-* http.head(url, [config])
-* http.post(url, data, [config])
-* http.put(url, data, [config])
-* http.delete(url, [config])
-* http.patch(url, data, [config])
+* `http.get(url, [config])`
+* `http.head(url, [config])`
+* `http.post(url, data, [config])`
+* `http.put(url, data, [config])`
+* `http.delete(url, [config])`
+* `http.patch(url, data, [config])`
