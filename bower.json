@@ -5,7 +5,7 @@
   "authors": [
     "Denis Kitaev <den.kitaev364@yandex.ru>"
   ],
-  "description": "Small javascript library for making http requests",
+  "description": "A small javascript library for making http requests",
   "main": "dist/http.min.js",
   "moduleType": [
     "globals"

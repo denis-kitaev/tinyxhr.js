@@ -1,7 +1,7 @@
 {
   "name": "tinyxhr.js",
   "version": "1.0.0",
-  "description": "Small javascript library for making http requests",
+  "description": "A small javascript library for making http requests",
   "main": "dist/http.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
