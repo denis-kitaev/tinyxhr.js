@@ -22,10 +22,6 @@ var http = (function() {
         return (typeof item === "object" && !Array.isArray(item) && item !== null);
     };
 
-    var isFunction = function(f) {
-        return (f && typeof(f) === 'function');
-    };
-
     var xhrResponseIsJSON = function(xhr) {
         var contentType = xhr.getResponseHeader('Content-Type');
         return (contentType === 'application/json');
@@ -46,8 +42,7 @@ var http = (function() {
 
     var request = function(method, url, data, config) {
         return new Promise(function(resolve, reject) {
-            var xhr = getXHR();
-            var response, responseIsJson;
+            var xhr = getXHR(), response;
             xhr.open(method, url, true);
 
             if (isObject(data)) {
@@ -56,8 +51,7 @@ var http = (function() {
             }
 
             xhr.onload = function() {
-                responseIsJson = xhrResponseIsJSON(xhr);
-                response = (responseIsJson) ? JSON.parse(xhr.responseText) : xhr.responseText;
+                response = xhrResponseIsJSON(xhr) ? JSON.parse(xhr.responseText) : xhr.responseText;
 
                 if (xhr.status >= 200 && xhr.status < 300) {
                     resolve(response);
