@@ -20,6 +20,28 @@ http.get('/api/apticles/')
     });
 ```
 
+If you want to add callback only to success request, you can just write:
+
+```js
+var data = {
+    title: 'My Awesome Title',
+    text: 'This is my article ..'
+};
+http.post('/api/articles/', data)
+    .success(function(article) {
+        articles.push(article);
+    });
+```
+
+Or only to error request:
+
+```js
+http.delete('/api/articles/10/')
+    .error(function() {
+        alert('Something went wrong!');
+    });
+```
+
 ### API
 List of methods:
 * `http.get(url, [config])`

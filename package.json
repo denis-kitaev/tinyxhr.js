@@ -1,6 +1,6 @@
 {
   "name": "tinyxhr.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A small javascript library for making http requests",
   "main": "dist/http.min.js",
   "scripts": {

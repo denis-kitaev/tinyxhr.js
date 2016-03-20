@@ -18,8 +18,12 @@ var http = (function() {
         return xhr;
     };
 
-    var isObject = function(item) {
-        return (typeof item === "object" && !Array.isArray(item) && item !== null);
+    var isObject = function(e) {
+        return (typeof e === "object" && !Array.isArray(e) && e !== null);
+    };
+
+    var isFunction = function(f) {
+        return (f && typeof f === 'function');
     };
 
     var xhrResponseIsJSON = function(xhr) {
@@ -40,55 +44,92 @@ var http = (function() {
         return str.join("&");
     };
 
-    var request = function(method, url, data, config) {
-        return new Promise(function(resolve, reject) {
-            var xhr = getXHR(), response;
-            xhr.open(method, url, true);
+    var getResponse = function(xhr) {
+        if (xhrResponseIsJSON(xhr))
+            return JSON.parse(xhr.responseText);
+        return xhr.responseText;
+    };
 
-            if (isObject(data)) {
-                data = JSON.stringify(data);
-                xhr.setRequestHeader('Content-Type', 'application/json');
+    function Request(method, url, data, config) {
+        this.successCallback = null;
+        this.errorCallback = null;
+
+        var self = this;
+        var xhr = getXHR(), response;
+
+        xhr.open(method, url, true);
+
+        if (isObject(data)) {
+            data = JSON.stringify(data);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+        }
+
+        var onSuccess = function() {
+            response = getResponse(xhr);
+            if (isFunction(self.successCallback))
+                self.successCallback(response);
+        };
+
+        var onError = function() {
+            response = getResponse(xhr);
+            if (isFunction(self.errorCallback)) {
+                self.errorCallback({
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    response: response
+                });
             }
+        };
 
-            xhr.onload = function() {
-                response = xhrResponseIsJSON(xhr) ? JSON.parse(xhr.responseText) : xhr.responseText;
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                onSuccess();
+            } else {
+                onError();
+            }
+        };
 
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    resolve(response);
-                } else {
-                    var err = new Error(xhr.statusText);
-                    err.status = xhr.status;
-                    err.response = response;
-                    reject(err);
-                }
-            };
+        xhr.onerror = function() {
+            onError();
+        };
 
-            xhr.onerror = function() {
-                reject(new Error('Network Error'));
-            };
+        xhr.send(data);
+    }
 
-            xhr.send(data);
-        });
+    Request.prototype.then = function(success, error) {
+        this.successCallback = success;
+        this.errorCallback = error;
+        return this;
+    };
+
+    Request.prototype.success = function(callback) {
+        this.successCallback = callback;
+        return this;
+    };
+
+    Request.prototype.error = function(callback) {
+        this.errorCallback = callback;
+        return this;
     };
 
     return {
         'get': function(url, config) {
-            return request('GET', url, null, config);
+            return new Request('GET', url, null, config);
         },
         'head': function(url, config) {
-            return request('HEAD', url, null, config);
+            return new Request('HEAD', url, null, config);
         },
         'post': function(url, data, config) {
-            return request('POST', url, data, config);
+            return new Request('POST', url, data, config);
         },
         'put': function(url, data, config) {
-            return request('PUT', url, data, config);
+            return new Request('PUT', url, data, config);
         },
         'delete': function(url, config) {
-            return request('DELETE', url, null, config);
+            return new Request('DELETE', url, null, config);
         },
         'patch': function(url, data, config) {
-            return request('PATCH', url, data, config);
+            return new Request('PATCH', url, data, config);
         }
     };
 }());
